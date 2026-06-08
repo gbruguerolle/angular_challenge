@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+
+  nav {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+}

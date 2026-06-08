@@ -1,0 +1,14 @@
+<div class="page-layout">
+  <div class="page-header">
+    @if (hasBreadcrumb()) {
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <ng-content select="[breadcrumb]" />
+      </nav>
+    }
+    <h1>{{ title() }}</h1>
+  </div>
+
+  <main class="page-content">
+    <ng-content />
+  </main>
+</div>
