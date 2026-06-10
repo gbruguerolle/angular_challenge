@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { PageLayout } from '../../shared/layout/page/page';
+import { Page } from '../../shared/layout/page/page';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
-  imports: [PageLayout, RouterLink],
+  imports: [Page, RouterLink],
   templateUrl: './contact.html',
 })
 export class Contact {}

@@ -20,35 +20,34 @@
   }
   @else if (inputType() === 'select')
   {
-    <p-select
+    <select
       [id]="inputId()"
       [formControlName]="controlName()"
-      [options]="options()"
-      [optionLabel]="optionLabel()"
-      [optionValue]="optionValue() || undefined"
-      [placeholder]="placeholder()"
-      [filter]="enableFilter()"
-      [filterPlaceholder]="selectFilterPlaceholder()"
       [required]="isFieldRequired()"
-      [showClear]="!isFieldRequired() && !isFieldDisabled() && inputValue != null && inputValue !== ''"
-      appendTo="body"
-      style="width: 100%;"
-    />
+    >
+      <option value="" disabled>{{ placeholder() }}</option>
+      @for (option of options(); track $index) {
+        @if (optionValue()) {
+          <option [value]="option[optionValue()!]">{{ option[optionLabel()] }}</option>
+        } @else {
+          <option [ngValue]="option">{{ option[optionLabel()] }}</option>
+        }
+      }
+    </select>
   }
   @else if (inputType() === 'multiSelect')
   {
     @if (!isFieldDisabled())
     {
-      <p-multiSelect
+      <select
         [id]="inputId()"
         [formControlName]="controlName()"
-        [options]="options()"
-        [optionLabel]="optionLabel()"
-        [placeholder]="placeholder()"
-        dataKey="id"
-        class="w-100"
-        display="chip"
-      />
+        multiple
+      >
+        @for (option of options(); track $index) {
+          <option [ngValue]="option">{{ option[optionLabel()] }}</option>
+        }
+      </select>
     }
     @else
     {
@@ -73,16 +72,12 @@
   }
   @else if (inputType() === 'date')
   {
-    <p-datepicker
+    <input
+        [type]="dateShowTime() ? 'datetime-local' : 'date'"
         [id]="inputId()"
         [formControlName]="controlName()"
-        [dateFormat]="dateFormat()"
-        [minDate]="dateMin()"
-        [maxDate]="dateMax()"
-        [showTime]="dateShowTime()"
-        [hourFormat]="dateHourFormat()"
-        [showIcon]="true"
-        [iconDisplay]="'input'"
+        [attr.min]="toDateString(dateMin())"
+        [attr.max]="toDateString(dateMax())"
         [placeholder]="placeholder()"
         [required]="isFieldRequired()"
     />
@@ -92,7 +87,8 @@
     <div class="radio-group d-flex align-items-center gap-20">
       @for (option of options(); track $index) {
         <div class="p-field-radiobutton d-inline-flex gap-5 cursor-pointer">
-          <p-radioButton
+          <input
+              type="radio"
               [id]="inputId() + '-' + option.value"
               [formControlName]="controlName()"
               [value]="option.value"
@@ -105,7 +101,6 @@
   @else if (inputType() === 'textarea')
   {
     <textarea
-        pInputTextarea
         [id]="inputId()"
         [formControlName]="controlName()"
         [rows]="textareaRows()"
@@ -115,23 +110,17 @@
   }
   @else if (inputType() === 'number')
   {
-    <p-inputnumber
+    <input
+        type="number"
         [id]="inputId()"
         [formControlName]="controlName()"
-        [mode]="numberMode()"
-        [currency]="numberMode() === 'currency' ? numberCurrency() : undefined"
-        [locale]="numberLocale()"
-        [minFractionDigits]="numberMinFractionDigits()"
-        [maxFractionDigits]="numberMaxFractionDigits()"
         [placeholder]="placeholder()"
         [required]="isFieldRequired()"
-        style="width: 100%;"
     />
   }
   @else
   {
     <input
-        pInputText
         [id]="inputId()"
         [formControlName]="controlName()"
         [type]="inputType()"

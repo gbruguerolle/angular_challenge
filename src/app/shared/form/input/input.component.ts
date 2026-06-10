@@ -61,7 +61,8 @@ export class InputComponent {
 
     // Gets error message for a specific form field
     getErrorMessage(): string {
-        return this.formErrorHandler.getErrorMessage(this.form, this.controlName());
+        return "TODO: implement error messages";
+        //return this.formErrorHandler.getErrorMessage(this.form, this.controlName());
     }
 
     // Helper to check if a control should show error
@@ -80,5 +81,10 @@ export class InputComponent {
             return true;
 
         return isFieldDisabled(this.form, this.controlName());
+    }
+
+    toDateString(date: Date | null): string | null {
+        if (!date) return null;
+        return date.toISOString().split('T')[0];
     }
 }

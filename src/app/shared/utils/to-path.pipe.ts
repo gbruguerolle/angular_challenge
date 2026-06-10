@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { toPath, RoutePath } from '../app.paths';
+import { toPath, RoutePath } from '../../app.paths';
 
 @Pipe({ name: 'toPath' })
 export class ToPathPipe implements PipeTransform {

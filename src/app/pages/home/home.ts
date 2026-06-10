@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { PageLayout } from '../../shared/layout/page/page';
+import { Page } from '../../shared/layout/page/page';
 
 @Component({
   selector: 'app-home',
-  imports: [PageLayout],
+  imports: [Page],
   templateUrl: './home.html',
 })
 export class Home {}

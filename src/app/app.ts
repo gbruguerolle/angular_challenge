@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './shared/header/header';
+import { Header } from './shared/layout/header/header';
 import { Footer } from './shared/layout/footer/footer';
 import { Loader } from './shared/layout/loader/loader';
 
