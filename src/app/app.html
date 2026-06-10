@@ -1,5 +1,17 @@
-<app-header />
 
-<router-outlet />
 
-<app-footer />
+@defer (on idle) {
+  <div id="app-container">
+    <app-header />
+
+    <main>
+        <router-outlet />
+    </main>
+
+    <app-footer />
+  </div>
+} @placeholder {
+  <div id="app-container" class="loading">
+    <app-loader />
+  </div>
+}

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageLayout } from '../../shared/page-layout/page-layout';
+import { PageLayout } from '../../shared/layout/page/page';
 import { RouterLink } from '@angular/router';
 
 @Component({

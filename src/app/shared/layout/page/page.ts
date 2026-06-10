@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-page-layout',
-  templateUrl: './page-layout.html',
-  styleUrl: './page-layout.scss',
+  selector: 'app-page',
+  templateUrl: './page.html',
+  styleUrl: './page.scss',
 })
-export class PageLayout {
+export class Page {
   title = input.required<string>();
   hasBreadcrumb = input<boolean>(false);
 }

@@ -1,0 +1,36 @@
+@let currentUser = userStore.currentUser();
+
+<div class="select-with-other-container cappli-box-container">
+  <!-- Main Select/Multiselect -->
+  <app-input
+    [controlName]="controlName()"
+    [label]="label()!"
+    [placeholder]="placeholder()"
+    [inputType]="inputType()"
+    [options]="mergedOptions"
+    [optionLabel]="optionLabel()"
+    [selectFilterPlaceholder]="selectFilterPlaceholder()"
+    [isSubmitted]="isSubmitted()" />
+
+  <!-- Conditional "Other" Input -->
+  @if (displayOtherInput) {
+    <app-input
+      [controlName]="otherControlName()"
+      [label]="otherInputLabel()"
+      [placeholder]="otherInputPlaceholder()"
+      [inputType]="'textarea'"
+      [textareaRows]="3"
+      [isSubmitted]="isSubmitted()">
+      <div titleContent>
+        @if (currentUser?.role === UserProfileType.ADMIN) {
+          <p-tag
+            [value]="otherInputResolveLabel()"
+            [severity]="'danger'"
+            [icon]="'pi pi-exclamation-triangle'"
+            class="p-tag-small mb-5 cursor-pointer"
+            (click)="resolveOtherInput()" />
+        }
+      </div>
+    </app-input>
+  }
+</div>

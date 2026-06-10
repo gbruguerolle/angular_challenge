@@ -1,0 +1,27 @@
+@if (totalPages() > 1 || totalCount() > pageSizeOptions[0])
+{
+  <div class="pagination-wrapper">
+    <div class="pagination-controls">
+      <p-button
+        icon="pi pi-chevron-left"
+        [disabled]="currentPage() === 1"
+        (click)="onPageChange(currentPage() - 1)"
+        label="Précédent"
+      />
+      <span class="text-white">Page {{ currentPage() }} sur {{ totalPages() }}</span>
+      <p-button
+        icon="pi pi-chevron-right"
+        [disabled]="currentPage() === totalPages()"
+        (click)="onPageChange(currentPage() + 1)"
+        iconPos="right"
+        label="Suivant"
+      />
+      <p-select
+        [options]="pageSizeOptions"
+        [ngModel]="pageSize()"
+        (ngModelChange)="onPageSizeChange($event)"
+        placeholder="Éléments par page"
+      />
+    </div>
+  </div>
+}
