@@ -1,7 +1,7 @@
-<div class="box" [formGroup]="formGroup()">
+<div class="box">
   @if (label()) 
   {
-    <div class="d-flex align-items-center gap-10">
+    <div class="form-label">
         <ng-content select="[customTitle]">
             <label [for]="inputId()">
               {{ label() }}
@@ -22,15 +22,14 @@
   {
     <select
       [id]="inputId()"
-      [formControlName]="controlName()"
-      [required]="isFieldRequired()"
+      [formField]="fieldAsAny"
     >
       <option value="" disabled>{{ placeholder() }}</option>
       @for (option of options(); track $index) {
         @if (optionValue()) {
           <option [value]="option[optionValue()!]">{{ option[optionLabel()] }}</option>
         } @else {
-          <option [ngValue]="option">{{ option[optionLabel()] }}</option>
+          <option [value]="option">{{ option[optionLabel()] }}</option>
         }
       }
     </select>
@@ -41,24 +40,24 @@
     {
       <select
         [id]="inputId()"
-        [formControlName]="controlName()"
+        [formField]="fieldAsAny"
         multiple
       >
-        @for (option of options(); track $index) {
-          <option [ngValue]="option">{{ option[optionLabel()] }}</option>
+        @for (option of options(); track option) {
+          <option [value]="option">{{ option[optionLabel()] }}</option>
         }
       </select>
     }
     @else
     {
-      <input type="hidden" [id]="inputId()" [formControlName]="controlName()" />
-      @if (inputValue && inputValue.length > 0) 
+      <input type="hidden" [id]="inputId()" />
+      @if (isArray() && arrayValue().length > 0) 
       {
         <div class="suggestions-box disabled mb-10">
           <ul>
-            @for (value of inputValue; track $index) {
-              @if (value && value[optionLabel()]) {
-                <li>{{ value[optionLabel()] }}</li>
+            @for (value of arrayValue(); track $index) {
+              @if (value) {
+                <li>{{ $any(value)[optionLabel()] }}</li>
               }
             }
           </ul>
@@ -75,7 +74,6 @@
     <input
         [type]="dateShowTime() ? 'datetime-local' : 'date'"
         [id]="inputId()"
-        [formControlName]="controlName()"
         [attr.min]="toDateString(dateMin())"
         [attr.max]="toDateString(dateMax())"
         [placeholder]="placeholder()"
@@ -90,7 +88,6 @@
           <input
               type="radio"
               [id]="inputId() + '-' + option.value"
-              [formControlName]="controlName()"
               [value]="option.value"
           />
           <label [for]="inputId() + '-' + option.value" class="radio-label">{{ option.label }}</label>
@@ -102,29 +99,17 @@
   {
     <textarea
         [id]="inputId()"
-        [formControlName]="controlName()"
         [rows]="textareaRows()"
         [placeholder]="placeholder()"
         [required]="isFieldRequired()"
     ></textarea>
   }
-  @else if (inputType() === 'number')
-  {
-    <input
-        type="number"
-        [id]="inputId()"
-        [formControlName]="controlName()"
-        [placeholder]="placeholder()"
-        [required]="isFieldRequired()"
-    />
-  }
   @else
   {
     <input
         [id]="inputId()"
-        [formControlName]="controlName()"
+        [formField]="fieldAsAny"
         [type]="inputType()"
-        [required]="isFieldRequired()" 
         [placeholder]="placeholder()"
     />
   }

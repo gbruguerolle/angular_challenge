@@ -1,8 +1,40 @@
-<app-page title="Contact" i18n-title="Contact page title@@contactTitle" [hasBreadcrumb]="true">
+<app-page [title]="'CONTACT.TITLE' | translate" [hasBreadcrumb]="true">
   <ng-container breadcrumb>
-    <span><a routerLink="/" i18n="Breadcrumb home@@breadcrumbHome">Home</a></span>
-    <span i18n="Breadcrumb contact@@breadcrumbContact">Contact</span>
+    <span><a routerLink="/">{{ 'BREADCRUMB.HOME' | translate }}</a></span>
+    <span>{{ 'BREADCRUMB.CONTACT' | translate }}</span>
   </ng-container>
 
-  <p i18n="Contact page description@@contactDescription">Get in touch with us.</p>
+  <form (ngSubmit)="onSubmit($event)">
+
+    <app-input
+      [field]="contactForm.email"
+      [controlName]="'email'"
+      [inputType]="'email'"
+      [label]="'CONTACT.FORM.EMAIL.LABEL' | translate"
+      [placeholder]="'CONTACT.FORM.EMAIL.PLACEHOLDER' | translate"
+    />
+
+    <app-input
+      [field]="contactForm.title"
+      [controlName]="'title'"
+      [inputType]="'text'"
+      [label]="'CONTACT.FORM.TITLE.LABEL' | translate"
+      [placeholder]="'CONTACT.FORM.TITLE.PLACEHOLDER' | translate"
+    />
+
+    <app-input
+      [field]="contactForm.message"
+      [controlName]="'message'"
+      [inputType]="'textarea'"
+      [label]="'CONTACT.FORM.MESSAGE.LABEL' | translate"
+      [placeholder]="'CONTACT.FORM.MESSAGE.PLACEHOLDER' | translate"
+    />
+
+    <p>Hello {{ contactForm.email().value() }}!</p>
+    <p>Title: {{ contactForm.title().value() }}</p>
+    <p>Message: {{ contactForm.message().value() }}</p>
+    <button type="submit">Contact</button>
+  </form>
+
+  <p>{{ 'CONTACT.DESCRIPTION' | translate }}</p>
 </app-page>

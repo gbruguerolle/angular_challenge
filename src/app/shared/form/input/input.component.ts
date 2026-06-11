@@ -1,19 +1,22 @@
-import { Component, input, inject, computed } from '@angular/core';
-import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { Component, input, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Field, FieldTree, FormField } from '@angular/forms/signals';
+import { TranslateService } from '@ngx-translate/core';
 
-import { isFieldDisabled, isFieldRequired, shouldShowError } from '../utils/form-validation-utils';
+type ScalarOrArray<T> = T | T[];
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [FormField],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
-export class InputComponent {
-    private readonly formGroupDirective = inject(FormGroupDirective);
+export class InputComponent<T> {
 
     // Inputs
+    field = input.required<FieldTree<ScalarOrArray<T>>>();
+
     controlName = input.required<string>();
     inputType = input<'text' | 'number' | 'email' | 'password' | 'tel' | 'date' | 'textarea' | 'radio' | 'select' | 'multiSelect' | 'custom'>('text');
     customInput = computed(() => this.inputType() === 'custom');
@@ -44,43 +47,52 @@ export class InputComponent {
     optionValue = input<string>(); // Optional: specify which field to store (if not provided, stores whole object)
     enableFilter = input<boolean>(false); // Optional: enable/disable filter for select (default: false)
     selectFilterPlaceholder = input<string>('Rechercher...'); // Optional: placeholder for select filter input
-    
+
     // Generate unique ID for label-input association
     inputId = computed(() => this.controlName());
-    
-    // Get the form group from the parent FormGroupDirective
-    formGroup = computed(() => this.formGroupDirective.form);
-    
-    get form() {
-        return this.formGroupDirective.form;
-    }
 
-    get inputValue() {
-        return this.form.get(this.controlName())?.value;
+    private readonly translate = inject(TranslateService);
+
+    private readonly ERROR_KEYS: Record<string, string> = {
+        required:   'FORM.ERROR.REQUIRED',
+        email:      'FORM.ERROR.EMAIL',
+        minlength:  'FORM.ERROR.MINLENGTH',
+        maxlength:  'FORM.ERROR.MAXLENGTH',
+        min:        'FORM.ERROR.MIN',
+        max:        'FORM.ERROR.MAX',
+        pattern:    'FORM.ERROR.PATTERN',
+    };
+
+    get fieldAsAny(): Field<any> {
+        return this.field() as unknown as Field<any>;
+    }
+    fieldState = computed(() => this.field()());
+    isArray    = computed(() => Array.isArray(this.fieldState().value()));
+    arrayValue = computed(() => this.fieldState().value() as T[]);
+
+    // Helper to check if a control should show error
+    shouldShowError(): boolean {
+        return this.fieldState().errors() && this.fieldState().touched() || this.isSubmitted();
     }
 
     // Gets error message for a specific form field
     getErrorMessage(): string {
-        return "TODO: implement error messages";
-        //return this.formErrorHandler.getErrorMessage(this.form, this.controlName());
-    }
+        const errors = this.fieldState().errors();
+        if (!errors || !Array.isArray(errors) || errors.length === 0) return '';
 
-    // Helper to check if a control should show error
-    shouldShowError(): boolean {
-        return shouldShowError(this.form, this.controlName(), this.isSubmitted());
+        return errors
+            .map(e => this.translate.instant(this.ERROR_KEYS[e.kind] ?? e.kind) ?? e.message ?? e.kind)
+            .join(', ');
     }
 
     // Checks if a control is required based on its validators
     isFieldRequired(): boolean {
-        return isFieldRequired(this.form, this.controlName());
+        return this.fieldState().required() || false;
     }
 
     // Checks if a control is required based on its validators
     isFieldDisabled(): boolean {
-        if (this.form.disabled)
-            return true;
-
-        return isFieldDisabled(this.form, this.controlName());
+        return this.fieldState().disabled() || false;
     }
 
     toDateString(date: Date | null): string | null {

@@ -1,0 +1,46 @@
+{
+  "HOME": {
+    "TITLE": "Accueil",
+    "DESCRIPTION": "Bienvenue sur la page d'accueil."
+  },
+  "CONTACT": {
+    "TITLE": "Contact",
+    "DESCRIPTION": "Contactez-nous.",
+    "FORM": {
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACEHOLDER": ""
+      },
+      "TITLE": {
+        "LABEL": "Titre",
+        "PLACEHOLDER": ""
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": ""
+      }
+    }
+  },
+  "NAV": {
+    "HOME": "Accueil",
+    "CONTACT": "Contact"
+  },
+  "BREADCRUMB": {
+    "HOME": "Accueil",
+    "CONTACT": "Contact"
+  },
+  "FOOTER": {
+    "COPYRIGHT": "© {{year}} My App. Tous droits réservés."
+  },
+  "FORM": {
+    "ERROR": {
+      "REQUIRED": "Ce champ est requis",
+      "EMAIL": "Adresse email invalide",
+      "MINLENGTH": "Valeur trop courte",
+      "MAXLENGTH": "Valeur trop longue",
+      "MIN": "Valeur trop basse",
+      "MAX": "Valeur trop haute",
+      "PATTERN": "Format invalide"
+    }
+  }
+}
