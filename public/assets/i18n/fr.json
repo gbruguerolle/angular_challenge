@@ -36,12 +36,10 @@
   "FORM": {
     "NONE": "Aucun(e)",
     "ERROR": {
-      "REQUIRED": "Ce champ est requis",
+      "REQUIRED": "Requis",
       "EMAIL": "Adresse email invalide",
-      "MINLENGTH": "Valeur trop courte",
-      "MAXLENGTH": "Valeur trop longue",
-      "MIN": "Valeur trop basse",
-      "MAX": "Valeur trop haute",
+      "MINLENGTH": "{{min}} caractères minimum",
+      "MAXLENGTH": "{{max}} caractères maximum",
       "PATTERN": "Format invalide"
     }
   }

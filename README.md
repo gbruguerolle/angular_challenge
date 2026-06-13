@@ -65,12 +65,15 @@ Tests live next to their source files (`*.spec.ts`). Use Angular's `TestBed` wit
 
 ```typescript
 @Component({
-  template: `<app-input [field]="f.name" controlName="name" label="Name" />`,
+  template: `
+    <app-input [field]="f.name" controlName="name" label="Name" [isSubmitted]="submitted" />
+  `,
   imports: [InputComponent],
 })
 class HostComponent {
   model = signal({ name: '' });
   f = form(this.model, (s) => required(s.name, { message: 'Required' }));
+  submitted = false;
 }
 
 describe('InputComponent', () => {
@@ -78,10 +81,17 @@ describe('InputComponent', () => {
     TestBed.configureTestingModule({ providers: [provideTranslateService()] });
   });
 
-  it('shows error when submitted', () => {
+  it('hides error initially', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.form-error')).toBeNull();
+  });
+
+  it('shows error when submitted', () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.componentInstance.submitted = true;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.form-error')).not.toBeNull();
   });
 });
 ```

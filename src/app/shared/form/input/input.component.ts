@@ -52,7 +52,7 @@ export class InputComponent<T> {
         const errors = this.fieldState().errors();
         return errors.length > 0 && (this.fieldState().touched() || this.isSubmitted());
     });
-    errorMessage = computed(() => {
+    errorMessage = computed(() => {        
         const errors = this.fieldState().errors();
         if (errors.length === 0) return '';
         return errors.map(e => e.message ?? e.kind).join(', ');
