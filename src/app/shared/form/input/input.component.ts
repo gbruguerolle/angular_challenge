@@ -1,8 +1,7 @@
 import { Component, input, computed } from '@angular/core';
-import { Field, FieldTree, FormField } from '@angular/forms/signals';
+import { Field, FormField } from '@angular/forms/signals';
 import { TranslatePipe } from '@ngx-translate/core';
-
-type ScalarOrArray<T> = T | T[];
+import { FormFieldConfig } from '../form.types';
 
 @Component({
   selector: 'app-input',
@@ -11,48 +10,38 @@ type ScalarOrArray<T> = T | T[];
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
-export class InputComponent<T> {
+export class InputComponent {
 
-    field        = input.required<FieldTree<ScalarOrArray<T>>>();
-    controlName  = input.required<string>();
-    inputType    = input<'text' | 'number' | 'email' | 'password' | 'tel' | 'date' | 'textarea' | 'radio' | 'select' | 'multiSelect' | 'custom'>('text');
-    label        = input.required<string>();
-    placeholder  = input<string>();
-    isSubmitted  = input<boolean>(false);
+    /** Full declarative definition of the field to render. */
+    config      = input.required<FormFieldConfig>();
+    /** Set after a submit attempt so errors show even on untouched fields. */
+    isSubmitted = input<boolean>(false);
 
-    // date
-    dateMin      = input<Date | null>(null);
-    dateMax      = input<Date | null>(null);
-    dateShowTime = input<boolean>(false);
+    // config accessors (with the same defaults the inputs used to carry)
+    controlName  = computed(() => this.config().controlName);
+    inputType    = computed(() => this.config().inputType ?? 'text');
+    label        = computed(() => this.config().label());
+    placeholder  = computed(() => this.config().placeholder?.() ?? '');
+    dateMin      = computed(() => this.config().dateMin ?? null);
+    dateMax      = computed(() => this.config().dateMax ?? null);
+    dateShowTime = computed(() => this.config().dateShowTime ?? false);
+    textareaRows = computed(() => this.config().textareaRows ?? 3);
+    options      = computed(() => this.config().options ?? []);
+    optionLabel  = computed(() => this.config().optionLabel ?? 'name');
+    optionValue  = computed(() => this.config().optionValue);
 
-    // textarea
-    textareaRows = input<number>(3);
-
-    // number
-    numberMode              = input<'decimal' | 'currency'>('decimal');
-    numberCurrency          = input<string>('EUR');
-    numberLocale            = input<string>('fr-FR');
-    numberMinFractionDigits = input<number>(0);
-    numberMaxFractionDigits = input<number>(2);
-
-    // radio / select / multiSelect
-    options      = input<Record<string, unknown>[]>([]);
-    optionLabel  = input<string>('name');
-    optionValue  = input<string>();
-    enableFilter = input<boolean>(false);
-
-    // internal computed properties
-    fieldAsAny      = computed(() => this.field() as unknown as Field<any>);
-    fieldState      = computed(() => this.field()());
+    // field state derived from the config
+    fieldAsAny      = computed(() => this.config().field as unknown as Field<any>);
+    fieldState      = computed(() => this.config().field());
     isArray         = computed(() => Array.isArray(this.fieldState().value()));
-    arrayValue      = computed(() => this.fieldState().value() as T[]);
+    arrayValue      = computed(() => this.fieldState().value() as unknown[]);
     isFieldRequired = computed(() => this.fieldState().required());
     isFieldDisabled = computed(() => this.fieldState().disabled());
     shouldShowError = computed(() => {
         const errors = this.fieldState().errors();
         return errors.length > 0 && (this.fieldState().touched() || this.isSubmitted());
     });
-    errorMessage = computed(() => {        
+    errorMessage = computed(() => {
         const errors = this.fieldState().errors();
         if (errors.length === 0) return '';
         return errors.map(e => e.message ?? e.kind).join(', ');

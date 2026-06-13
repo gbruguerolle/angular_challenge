@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe, translate } from '@ngx-translate/core';
 import { Page } from '../../shared/layout/page/page';
 import { ContactModel } from '../../models/contact';
-import { InputComponent } from '../../shared/form/input/input.component';
+import { FormComponent } from '../../shared/form/form/form.component';
+import { FormFieldConfig } from '../../shared/form/form.types';
 
 @Component({
   selector: 'app-contact',
-  imports: [Page, RouterLink, InputComponent, TranslatePipe],
+  imports: [Page, RouterLink, FormComponent, TranslatePipe],
   templateUrl: './contact.html',
 })
 export class Contact {
@@ -34,32 +35,31 @@ export class Contact {
     minLength(schemaPath.message, 10, { message: () => minMsg() });
   });
 
-  readonly fields = {
-    email: {
+  readonly fields: FormFieldConfig[] = [
+    {
       field: this.contactForm.email,
       controlName: 'email',
-      inputType: 'email' as const,
+      inputType: 'email',
       label: translate('CONTACT.FORM.EMAIL.LABEL') as Signal<string>,
       placeholder: translate('CONTACT.FORM.EMAIL.PLACEHOLDER') as Signal<string>,
     },
-    title: {
+    {
       field: this.contactForm.title,
       controlName: 'title',
-      inputType: 'text' as const,
+      inputType: 'text',
       label: translate('CONTACT.FORM.TITLE.LABEL') as Signal<string>,
       placeholder: translate('CONTACT.FORM.TITLE.PLACEHOLDER') as Signal<string>,
     },
-    message: {
+    {
       field: this.contactForm.message,
       controlName: 'message',
-      inputType: 'textarea' as const,
+      inputType: 'textarea',
       label: translate('CONTACT.FORM.MESSAGE.LABEL') as Signal<string>,
       placeholder: translate('CONTACT.FORM.MESSAGE.PLACEHOLDER') as Signal<string>,
     },
-  };
+  ];
 
-  onSubmit(event: Event) {
-    event.preventDefault();
+  onSubmit() {
     this.isSubmitted.set(true);
 
     if (!this.contactForm().valid()) return;

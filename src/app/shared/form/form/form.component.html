@@ -1,0 +1,7 @@
+<form (submit)="onSubmit($event)" novalidate>
+  @for (fld of fields(); track fld.controlName) {
+    <app-input [config]="fld" [isSubmitted]="isSubmitted()" />
+  }
+
+  <button type="submit">{{ submitLabel() }}</button>
+</form>

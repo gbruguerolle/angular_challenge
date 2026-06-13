@@ -4,71 +4,78 @@ import { Component, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
 import { provideTranslateService } from '@ngx-translate/core';
 import { InputComponent } from './input.component';
+import { FormFieldConfig } from '../form.types';
 
 // ── Host components ────────────────────────────────────────────────────────
 
 @Component({
-  template: `
-    <app-input
-      [field]="f.name"
-      controlName="name"
-      [label]="label"
-      [placeholder]="placeholder"
-      [isSubmitted]="submitted"
-    />
-  `,
+  template: `<app-input [config]="config" [isSubmitted]="submitted" />`,
   imports: [InputComponent],
 })
 class TextHost {
   readonly model = signal({ name: '' });
   readonly f = form(this.model, (s) => required(s.name, { message: 'Champ requis' }));
-  label = 'Nom';
-  placeholder = 'Entrez un nom';
   submitted = false;
+  config: FormFieldConfig = {
+    field: this.f.name,
+    controlName: 'name',
+    label: signal('Nom'),
+    placeholder: signal('Entrez un nom'),
+  };
 }
 
 @Component({
-  template: `<app-input [field]="f.msg" controlName="msg" label="Message" inputType="textarea" />`,
+  template: `<app-input [config]="config" />`,
   imports: [InputComponent],
 })
 class TextareaHost {
   readonly model = signal({ msg: '' });
   readonly f = form(this.model, () => {});
+  config: FormFieldConfig = {
+    field: this.f.msg,
+    controlName: 'msg',
+    label: signal('Message'),
+    inputType: 'textarea',
+  };
 }
 
 @Component({
-  template: `
-    <app-input
-      [field]="f.choice"
-      controlName="choice"
-      label="Choix"
-      inputType="select"
-      [options]="options"
-      optionValue="id"
-      optionLabel="label"
-    />
-  `,
+  template: `<app-input [config]="config" />`,
   imports: [InputComponent],
 })
 class SelectHost {
   readonly model = signal({ choice: '' });
   readonly f = form(this.model, () => {});
-  options = [{ id: '1', label: 'Un' }, { id: '2', label: 'Deux' }];
+  config: FormFieldConfig = {
+    field: this.f.choice,
+    controlName: 'choice',
+    label: signal('Choix'),
+    inputType: 'select',
+    options: [{ id: '1', label: 'Un' }, { id: '2', label: 'Deux' }],
+    optionValue: 'id',
+    optionLabel: 'label',
+  };
 }
 
 @Component({
-  template: `<app-input [field]="f.name" controlName="name" inputType="email" label="Email" />`,
+  template: `<app-input [config]="config" />`,
   imports: [InputComponent],
 })
 class EmailHost {
   readonly model = signal({ name: '' });
   readonly f = form(this.model, () => {});
+  config: FormFieldConfig = {
+    field: this.f.name,
+    controlName: 'name',
+    label: signal('Email'),
+    inputType: 'email',
+  };
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-function inputComp<T>(fixture: ReturnType<typeof TestBed.createComponent<any>>) {
-  return fixture.debugElement.query(By.directive(InputComponent)).componentInstance as InputComponent<T>;
+function inputComp(fixture: ReturnType<typeof TestBed.createComponent<any>>) {
+  return fixture.debugElement.query(By.directive(InputComponent)).componentInstance as InputComponent;
 }
 
 // ── Tests ──────────────────────────────────────────────────────────────────
@@ -211,12 +218,17 @@ describe('InputComponent', () => {
 
     it('falls back to error kind when message is absent', () => {
       @Component({
-        template: `<app-input [field]="f.val" controlName="val" label="Val" [isSubmitted]="true" />`,
+        template: `<app-input [config]="config" [isSubmitted]="true" />`,
         imports: [InputComponent],
       })
       class NoMessageHost {
         readonly model = signal({ val: '' });
         readonly f = form(this.model, (s) => required(s.val));
+        config: FormFieldConfig = {
+          field: this.f.val,
+          controlName: 'val',
+          label: signal('Val'),
+        };
       }
 
       const fixture = TestBed.createComponent(NoMessageHost);

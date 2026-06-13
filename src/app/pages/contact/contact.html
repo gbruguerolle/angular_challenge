@@ -6,31 +6,19 @@
 
   <p>{{ 'CONTACT.DESCRIPTION' | translate }}</p>
 
+  <!-- Both works
   <form (submit)="onSubmit($event)" novalidate>
-    <app-input
-      [field]="fields.email.field"
-      [controlName]="fields.email.controlName"
-      [inputType]="fields.email.inputType"
-      [label]="fields.email.label()"
-      [placeholder]="fields.email.placeholder()"
-      [isSubmitted]="isSubmitted()"
-    />
-    <app-input
-      [field]="fields.title.field"
-      [controlName]="fields.title.controlName"
-      [inputType]="fields.title.inputType"
-      [label]="fields.title.label()"
-      [placeholder]="fields.title.placeholder()"
-      [isSubmitted]="isSubmitted()"
-    />
-    <app-input
-      [field]="fields.message.field"
-      [controlName]="fields.message.controlName"
-      [inputType]="fields.message.inputType"
-      [label]="fields.message.label()"
-      [placeholder]="fields.message.placeholder()"
-      [isSubmitted]="isSubmitted()"
-    />
+    <app-input [config]="fields.email" [isSubmitted]="isSubmitted()" />
+    <app-input [config]="fields.title" [isSubmitted]="isSubmitted()" />
+    <app-input [config]="fields.message" [isSubmitted]="isSubmitted()" />
     <button type="submit">{{ 'CONTACT.FORM.SUBMIT' | translate }}</button>
   </form>
+  -->
+
+  <app-form
+    [fields]="fields"
+    [isSubmitted]="isSubmitted()"
+    [submitLabel]="'CONTACT.FORM.SUBMIT' | translate"
+    (submitted)="onSubmit()"
+  />
 </app-page>
