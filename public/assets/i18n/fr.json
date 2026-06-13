@@ -34,6 +34,7 @@
     "COPYRIGHT": "© {{year}} My App. Tous droits réservés."
   },
   "FORM": {
+    "NONE": "Aucun(e)",
     "ERROR": {
       "REQUIRED": "Ce champ est requis",
       "EMAIL": "Adresse email invalide",

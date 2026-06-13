@@ -58,7 +58,11 @@ export class Contact {
   onSubmit(event: Event) {
     event.preventDefault();
     this.isSubmitted.set(true);
+
+    if (!this.contactForm().valid()) return;
+
     const contactData = this.contactModel();
     console.log('Submitting contact form with:', contactData);
+    this.isSubmitted.set(false);
   }
 }

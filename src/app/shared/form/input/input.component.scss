@@ -1,3 +1,5 @@
+$error-color: red;
+
 .form-box {
     position: relative;
     display: inline-block;
@@ -17,6 +19,6 @@
 
     .form-error {
         margin-top: 2px;
-        color: red;
+        color: $error-color;
     }
 }

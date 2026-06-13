@@ -1,36 +1,26 @@
 <div class="form-box">
-  @if (label()) 
-  {
-    <div class="form-label">
-        <ng-content select="[customTitle]">
-            <label [for]="inputId()">
-              {{ label() }}
-              @if (isFieldRequired()) {
-                <span> *</span>
-              }
-            </label>
-        </ng-content>
-        <ng-content select="[titleContent]"></ng-content>
-    </div>
-  }
-  
-  @if (customInput()) 
+  <div class="form-label">
+    <ng-content select="[customTitle]">
+      <label [for]="controlName()">
+        {{ label() }}
+        @if (isFieldRequired()) {
+          <span> *</span>
+        }
+      </label>
+    </ng-content>
+    <ng-content select="[titleContent]"></ng-content>
+  </div>
+
+  @if (inputType() === 'custom')
   {
     <ng-content></ng-content>
   }
   @else if (inputType() === 'select')
   {
-    <select
-      [id]="inputId()"
-      [formField]="fieldAsAny"
-    >
+    <select [id]="controlName()" [formField]="fieldAsAny()">
       <option value="" disabled>{{ placeholder() }}</option>
-      @for (option of options(); track $index) {
-        @if (optionValue()) {
-          <option [value]="option[optionValue()!]">{{ option[optionLabel()] }}</option>
-        } @else {
-          <option [value]="option">{{ option[optionLabel()] }}</option>
-        }
+      @for (option of options(); track optionValue() ? option[optionValue()!] : option) {
+        <option [value]="optionValue() ? option[optionValue()!] : option">{{ option[optionLabel()] }}</option>
       }
     </select>
   }
@@ -38,22 +28,18 @@
   {
     @if (!isFieldDisabled())
     {
-      <select
-        [id]="inputId()"
-        [formField]="fieldAsAny"
-        multiple
-      >
-        @for (option of options(); track option) {
-          <option [value]="option">{{ option[optionLabel()] }}</option>
+      <select [id]="controlName()" [formField]="fieldAsAny()" multiple>
+        @for (option of options(); track optionValue() ? option[optionValue()!] : option) {
+          <option [value]="optionValue() ? option[optionValue()!] : option">{{ option[optionLabel()] }}</option>
         }
       </select>
     }
     @else
     {
-      <input type="hidden" [id]="inputId()" />
-      @if (isArray() && arrayValue().length > 0) 
+      <input type="hidden" [id]="controlName()" />
+      @if (isArray() && arrayValue().length > 0)
       {
-        <div class="suggestions-box disabled mb-10">
+        <div class="suggestions-box disabled">
           <ul>
             @for (value of arrayValue(); track $index) {
               @if (value) {
@@ -63,34 +49,35 @@
           </ul>
         </div>
       }
-      @else 
+      @else
       {
-        <div>Aucune {{ label().toLowerCase() }}</div>
+        <div>{{ 'FORM.NONE' | translate }} {{ label().toLowerCase() }}</div>
       }
     }
   }
   @else if (inputType() === 'date')
   {
     <input
-        [type]="dateShowTime() ? 'datetime-local' : 'date'"
-        [id]="inputId()"
-        [attr.min]="toDateString(dateMin())"
-        [attr.max]="toDateString(dateMax())"
-        [placeholder]="placeholder()"
-        [required]="isFieldRequired()"
+      [type]="dateShowTime() ? 'datetime-local' : 'date'"
+      [id]="controlName()"
+      [formField]="fieldAsAny()"
+      [attr.min]="toDateString(dateMin())"
+      [attr.max]="toDateString(dateMax())"
+      [placeholder]="placeholder()"
     />
   }
   @else if (inputType() === 'radio')
   {
-    <div class="radio-group d-flex align-items-center gap-20">
-      @for (option of options(); track $index) {
-        <div class="p-field-radiobutton d-inline-flex gap-5 cursor-pointer">
+    <div class="radio-group">
+      @for (option of options(); track option['value']) {
+        <div class="radio-option">
           <input
-              type="radio"
-              [id]="inputId() + '-' + option.value"
-              [value]="option.value"
+            type="radio"
+            [id]="controlName() + '-' + $any(option['value'])"
+            [formField]="fieldAsAny()"
+            [value]="$any(option['value'])"
           />
-          <label [for]="inputId() + '-' + option.value" class="radio-label">{{ option.label }}</label>
+          <label [for]="controlName() + '-' + $any(option['value'])">{{ option['label'] }}</label>
         </div>
       }
     </div>
@@ -98,25 +85,25 @@
   @else if (inputType() === 'textarea')
   {
     <textarea
-        [id]="inputId()"
-        [formField]="fieldAsAny"
-        [rows]="textareaRows()"
-        [placeholder]="placeholder()"
+      [id]="controlName()"
+      [formField]="fieldAsAny()"
+      [rows]="textareaRows()"
+      [placeholder]="placeholder()"
     ></textarea>
   }
   @else
   {
     <input
-        [id]="inputId()"
-        [formField]="fieldAsAny"
-        [type]="inputType()"
-        [placeholder]="placeholder()"
+      [id]="controlName()"
+      [formField]="fieldAsAny()"
+      [type]="inputType()"
+      [placeholder]="placeholder()"
     />
   }
-    
+
   @if (shouldShowError()) {
     <div class="form-error">
-      <small class="text-error">{{ getErrorMessage() }}</small>
+      <small class="text-error">{{ errorMessage() }}</small>
     </div>
   }
 </div>
