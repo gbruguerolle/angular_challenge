@@ -1,4 +1,4 @@
-.box {
+.form-box {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -13,5 +13,10 @@
 
     input, textarea, select {
         width: 100%;
+    }
+
+    .form-error {
+        margin-top: 2px;
+        color: red;
     }
 }

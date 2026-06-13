@@ -1,4 +1,4 @@
-<div class="box">
+<div class="form-box">
   @if (label()) 
   {
     <div class="form-label">
@@ -99,9 +99,9 @@
   {
     <textarea
         [id]="inputId()"
+        [formField]="fieldAsAny"
         [rows]="textareaRows()"
         [placeholder]="placeholder()"
-        [required]="isFieldRequired()"
     ></textarea>
   }
   @else
@@ -115,7 +115,7 @@
   }
     
   @if (shouldShowError()) {
-    <div>
+    <div class="form-error">
       <small class="text-error">{{ getErrorMessage() }}</small>
     </div>
   }

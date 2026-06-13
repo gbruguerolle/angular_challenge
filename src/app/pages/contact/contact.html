@@ -4,37 +4,33 @@
     <span>{{ 'BREADCRUMB.CONTACT' | translate }}</span>
   </ng-container>
 
-  <form (ngSubmit)="onSubmit($event)">
-
-    <app-input
-      [field]="contactForm.email"
-      [controlName]="'email'"
-      [inputType]="'email'"
-      [label]="'CONTACT.FORM.EMAIL.LABEL' | translate"
-      [placeholder]="'CONTACT.FORM.EMAIL.PLACEHOLDER' | translate"
-    />
-
-    <app-input
-      [field]="contactForm.title"
-      [controlName]="'title'"
-      [inputType]="'text'"
-      [label]="'CONTACT.FORM.TITLE.LABEL' | translate"
-      [placeholder]="'CONTACT.FORM.TITLE.PLACEHOLDER' | translate"
-    />
-
-    <app-input
-      [field]="contactForm.message"
-      [controlName]="'message'"
-      [inputType]="'textarea'"
-      [label]="'CONTACT.FORM.MESSAGE.LABEL' | translate"
-      [placeholder]="'CONTACT.FORM.MESSAGE.PLACEHOLDER' | translate"
-    />
-
-    <p>Hello {{ contactForm.email().value() }}!</p>
-    <p>Title: {{ contactForm.title().value() }}</p>
-    <p>Message: {{ contactForm.message().value() }}</p>
-    <button type="submit">Contact</button>
-  </form>
-
   <p>{{ 'CONTACT.DESCRIPTION' | translate }}</p>
+
+  <form (submit)="onSubmit($event)" novalidate>
+    <app-input
+      [field]="fields.email.field"
+      [controlName]="fields.email.controlName"
+      [inputType]="fields.email.inputType"
+      [label]="fields.email.label()"
+      [placeholder]="fields.email.placeholder()"
+      [isSubmitted]="isSubmitted()"
+    />
+    <app-input
+      [field]="fields.title.field"
+      [controlName]="fields.title.controlName"
+      [inputType]="fields.title.inputType"
+      [label]="fields.title.label()"
+      [placeholder]="fields.title.placeholder()"
+      [isSubmitted]="isSubmitted()"
+    />
+    <app-input
+      [field]="fields.message.field"
+      [controlName]="fields.message.controlName"
+      [inputType]="fields.message.inputType"
+      [label]="fields.message.label()"
+      [placeholder]="fields.message.placeholder()"
+      [isSubmitted]="isSubmitted()"
+    />
+    <button type="submit">{{ 'CONTACT.FORM.SUBMIT' | translate }}</button>
+  </form>
 </app-page>

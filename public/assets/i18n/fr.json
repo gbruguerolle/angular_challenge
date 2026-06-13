@@ -18,7 +18,8 @@
       "MESSAGE": {
         "LABEL": "Message",
         "PLACEHOLDER": ""
-      }
+      },
+      "SUBMIT": "Envoyer"
     }
   },
   "NAV": {

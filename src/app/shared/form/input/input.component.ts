@@ -72,7 +72,7 @@ export class InputComponent<T> {
 
     // Helper to check if a control should show error
     shouldShowError(): boolean {
-        return this.fieldState().errors() && this.fieldState().touched() || this.isSubmitted();
+        return this.fieldState().errors() && (this.fieldState().touched() || this.isSubmitted());
     }
 
     // Gets error message for a specific form field
@@ -81,7 +81,7 @@ export class InputComponent<T> {
         if (!errors || !Array.isArray(errors) || errors.length === 0) return '';
 
         return errors
-            .map(e => this.translate.instant(this.ERROR_KEYS[e.kind] ?? e.kind) ?? e.message ?? e.kind)
+            .map(e => e.message ?? this.translate.instant(this.ERROR_KEYS[e.kind]) ?? e.kind)
             .join(', ');
     }
 
