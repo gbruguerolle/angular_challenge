@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+/* =============================================================================
+   Application theme
+   -----------------------------------------------------------------------------
+   The theme is exposed through CSS custom properties on :root.
+
+   Unlike SCSS $variables — compiled per component and never crossing Angular's
+   view encapsulation — custom properties cascade through the DOM into every
+   component. This file is therefore the single place to set the theme: the
+   subcomponents just read `var(--app-*)`.
+   ============================================================================= */
+
+:root {
+  /* Colors */
+  --app-color-primary: #1976d2;
+  --app-color-active: color-mix(in srgb, var(--app-color-primary) 85%, black);
+  --app-color-on-primary: #ffffff;
+  --app-color-text: var(--app-color-primary);
+  --app-color-border: var(--app-color-primary);
+  --app-color-error: #e53935;
+  --app-color-background: #ffffff;
+  --app-color-surface: #f7f7f7;
+
+  /* Typography */
+  --app-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --app-font-size-base: 1rem;
+  --app-font-size-sm: 0.875rem;
+
+  /* Spacing scale */
+  --app-space-xs: 0.25rem;
+  --app-space-sm: 0.5rem;
+  --app-space-md: 1rem;
+  --app-space-lg: 1.5rem;
+
+  /* Borders & radius */
+  --app-border-width: 1px;
+  --app-border: var(--app-border-width) solid var(--app-color-border);
+  --app-radius: 6px;
+  --app-radius-pill: 999px;
+
+  /* Layout */
+  --app-container-width: 960px;
+}
+
+/* Base styles */
+html,
+body {
+  margin: 0;
+  font-family: var(--app-font-family);
+  font-size: var(--app-font-size-base);
+  color: var(--app-color-text);
+  background-color: var(--app-color-background);
+}
+
+/* Buttons — primary color background, rounded design */
+button {
+  padding: var(--app-space-sm) var(--app-space-lg);
+  font: inherit;
+  color: var(--app-color-on-primary);
+  background-color: var(--app-color-primary);
+  border: none;
+  border-radius: var(--app-radius-pill);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--app-color-active);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

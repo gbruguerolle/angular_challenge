@@ -1,8 +1,8 @@
 :host {
   display: block;
-  padding: 1rem;
+  padding: var(--app-space-md);
   text-align: center;
-  border-top: 1px solid #ddd;
-  color: #666;
-  font-size: 0.875rem;
+  border-top: var(--app-border);
+  color: var(--app-color-text);
+  font-size: var(--app-font-size-sm);
 }

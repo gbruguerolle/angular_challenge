@@ -1,7 +1,7 @@
 :host {
   display: block;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  padding: var(--app-space-md);
+  border-bottom: var(--app-border);
 
   header {
     display: flex;
@@ -11,7 +11,7 @@
 
   nav {
     display: flex;
-    gap: 1rem;
+    gap: var(--app-space-md);
 
     a {
       text-decoration: none;
@@ -29,7 +29,7 @@
 
   .lang-switcher {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--app-space-sm);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -37,7 +37,7 @@
     li {
       cursor: pointer;
       text-transform: uppercase;
-      font-size: 0.85rem;
+      font-size: var(--app-font-size-sm);
       opacity: 0.5;
 
       &:hover {

@@ -1,20 +1,20 @@
 .page-layout {
-  max-width: 960px;
+  max-width: var(--app-container-width);
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: var(--app-space-lg);
 }
 
 .page-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--app-space-lg);
 
   h1 {
-    margin: 0.25rem 0 0;
+    margin: var(--app-space-xs) 0 0;
   }
 }
 
 .breadcrumb {
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--app-font-size-sm);
+  color: var(--app-color-text);
 
   a {
     color: inherit;
@@ -27,6 +27,6 @@
 
   span + span::before {
     content: ' / ';
-    margin: 0 0.25rem;
+    margin: 0 var(--app-space-xs);
   }
 }

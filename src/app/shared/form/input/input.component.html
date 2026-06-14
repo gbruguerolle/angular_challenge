@@ -4,7 +4,10 @@
       <label [for]="controlName()">
         {{ label() }}
         @if (isFieldRequired()) {
-          <span> *</span>
+          <span>*</span>
+        }
+        @if (shouldShowError()) {
+          <span class="form-error text-error">({{ errorMessage() }})</span>
         }
       </label>
     </ng-content>
@@ -99,11 +102,5 @@
       [type]="inputType()"
       [placeholder]="placeholder()"
     />
-  }
-
-  @if (shouldShowError()) {
-    <div class="form-error">
-      <small class="text-error">{{ errorMessage() }}</small>
-    </div>
   }
 </div>
