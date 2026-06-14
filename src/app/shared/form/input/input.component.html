@@ -7,7 +7,7 @@
           <span>*</span>
         }
         @if (shouldShowError()) {
-          <span class="form-error text-error">({{ errorMessage() }})</span>
+          <span class="form-error">(<span class="form-error-text">{{ errorMessage() }}</span>)</span>
         }
       </label>
     </ng-content>

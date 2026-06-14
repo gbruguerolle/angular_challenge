@@ -13,6 +13,14 @@
         .form-error {
             margin-left: var(--app-space-xs);
             color: var(--app-color-error);
+
+            // Display the error starting with a lowercase letter
+            .form-error-text {
+                display: inline-block;
+                &::first-letter {
+                    text-transform: lowercase;
+                }
+            }
         }
     }
 
