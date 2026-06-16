@@ -37,7 +37,7 @@
     "NONE": "None",
     "ERROR": {
       "REQUIRED": "Required",
-      "EMAIL": "Invalid email address",
+      "EMAIL": "Invalid email",
       "MINLENGTH": "Minimum {{min}} characters",
       "MAXLENGTH": "Maximum {{max}} characters",
       "PATTERN": "Invalid format"

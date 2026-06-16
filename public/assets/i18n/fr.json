@@ -37,7 +37,7 @@
     "NONE": "Aucun(e)",
     "ERROR": {
       "REQUIRED": "Requis",
-      "EMAIL": "Adresse email invalide",
+      "EMAIL": "Email invalide",
       "MINLENGTH": "{{min}} caractères minimum",
       "MAXLENGTH": "{{max}} caractères maximum",
       "PATTERN": "Format invalide"
